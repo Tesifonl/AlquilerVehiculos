@@ -107,7 +107,7 @@ public class TurismoTest {
 	}
 	
 	@Test
-	void constructoTurismoNuloLanzaExcepcion() {
+	void constructorTurismoNuloLanzaExcepcion() {
 		NullPointerException npe = assertThrows(NullPointerException.class, () -> new Turismo(null));
 		assertEquals(MENSAJE_ERROR_TURISMO_NULO, npe.getMessage());
 	}
