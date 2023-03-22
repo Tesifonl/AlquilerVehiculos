@@ -4,7 +4,7 @@ import java.util.Objects;
 
 public class Cliente {
 	
-	private String ER_NOMBRE="[A-Za-z._\\s]{1,20}";
+	private String ER_NOMBRE="[A-Z]{1}[a-z]+\\s{0,1}[A-Z]{0,1}[a-z]*";
 	private String ER_DNI="[0-9]{8}[a-zA-Z]{1}";
 	private String ER_TELEFONO="[0-9]{9}";
 	private String nombre;
@@ -18,11 +18,7 @@ public class Cliente {
 		setTelefono(telefono);
 	}
 
-	public Cliente () {
-		
-		setNombre(nombre);
-		setDni(dni);
-		setTelefono(telefono);
+	public Cliente() {
 	}
 
 	
@@ -110,9 +106,18 @@ public class Cliente {
 	}
 	
 	public static Cliente getClienteConDni(String dni) {
+		Cliente clienteValido = null;
 		
+		if (dni != null) {
+			//Creamos objeto vacío sin datos
+			clienteValido=new Cliente();
+			//Solo le asignamos el dni
+			clienteValido.setDni(dni);
+		}
+		else {
+			throw new NullPointerException("ERROR: El DNI no puede ser nulo.");
+		}
 		
-		Cliente clienteValido=new Cliente();
 		return clienteValido;
 	}
 

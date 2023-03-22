@@ -29,7 +29,7 @@ public class Turismos {
 	}
 	
 	
-	public void Insertar(Turismo turismo) throws OperationNotSupportedException {
+	public void insertar(Turismo turismo) throws OperationNotSupportedException {
 		
 		// Si el turismo es null
 		if (turismo!=null) {
@@ -40,10 +40,14 @@ public class Turismos {
 				// Añadimos el turismo a la lista porque no lo esta.
 				turismos.add(turismo);
 				
-			} throw new OperationNotSupportedException("ERROR: Ya existe un turismo con esa matrícula.");
+			} 
+			else {
+				throw new OperationNotSupportedException("ERROR: Ya existe un turismo con esa matrícula.");
+			}
 		}
-		
-	throw new NullPointerException("ERROR: No se puede insertar un turismo nulo.");
+		else {
+			throw new NullPointerException("ERROR: No se puede insertar un turismo nulo.");
+		}
 }	
 	
 	public Turismo buscar (Turismo turismo) {

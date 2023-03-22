@@ -84,7 +84,7 @@ public class Alquileres {
 	private void comprobarAlquiler(Cliente cliente, Turismo turismo, LocalDate fechaAlquiler) throws OperationNotSupportedException {
 		
 		for (Alquiler alq: alquileres) {
-			
+
 			//Si el cliente del objeto alq es igual al cliente del parametro
 			//y la fecha de devolución es null
 			if (alq.getCliente().equals(cliente) && alq.getFechaDevolucion() == null) {
@@ -93,24 +93,24 @@ public class Alquileres {
 			
 			//Si el cliente del objeto alq es igual al cliente del parametro
 			//y la fecha de devolución es posterior (isAfter) a la fecha de alquiler
-			if (alq.getCliente().equals(cliente) && alq.getFechaDevolucion().isAfter(fechaAlquiler)) {
+			if (alq.getCliente().equals(cliente) && 
+			    (alq.getFechaDevolucion().isAfter(fechaAlquiler) || alq.getFechaDevolucion().equals(fechaAlquiler))) {
 				throw new OperationNotSupportedException("ERROR: El cliente tiene un alquiler posterior.");
 			}
-					
-
+			
 			//si el turismo del objeto alq es igual al turismo del parametro 
 			//y la fecha de devolución es null
-			if (alq.getTurismo().equals(turismo) && alq.getFechaDevolucion() == null) {
+			if (alq.getTurismo() != null && alq.getTurismo().equals(turismo) && alq.getFechaDevolucion() == null) {
 				throw new OperationNotSupportedException("ERROR: El turismo está actualmente alquilado.");
 			}
 				
 			//si el turismo del objeto alq es igual al turismo del parametro 
 			//y la fecha de devolución es posterior (isAfter) a la fecha de alquiler
-			if (alq.getTurismo().equals(turismo) && alq.getFechaDevolucion().isAfter(fechaAlquiler)) {
-				throw new OperationNotSupportedException("ERROR: El turismo tiene un alquiler posterior.");
-			}		
+			if (alq.getTurismo() != null && alq.getTurismo().equals(turismo) && 
+				(alq.getFechaDevolucion().isAfter(fechaAlquiler) || alq.getFechaDevolucion().equals(fechaAlquiler))) {
+				throw new OperationNotSupportedException("ERROR: El turismo tiene un alquiler posterior.");	
+			}
 		}
-		
 	}
 	
 	public void insertar(Alquiler alquiler) throws OperationNotSupportedException {
@@ -127,17 +127,65 @@ public class Alquileres {
 		}
 	}
 	
-	public void devolver(Alquiler alquiler, LocalDate fechaDevolucion) {
+	public void devolver(Alquiler alquiler, LocalDate fechaDevolucion) throws OperationNotSupportedException {
 		
+		if (alquiler != null) {
+			
+			//Si el aquiler existe en la lista, le cambiamos la fecha de devolución
+			Alquiler alq = buscar(alquiler);
+				
+			//Si el alquiler buscado no es null
+			if (alq != null) {
+				
+				//devuelvo el alquiler
+				alq.devolver(fechaDevolucion);	
+			}
+			else {
+				throw new OperationNotSupportedException("ERROR: No existe ningún alquiler igual.");
+			}
+		}
+		else {
+			throw new NullPointerException("ERROR: No se puede devolver un alquiler nulo.");
+		}
 	}
 	
 	
-	public void borrar(Alquiler alquiler) {
+	public void borrar(Alquiler alquiler) throws OperationNotSupportedException {
+		
+		if (alquiler != null) {	
+			//si la lista contiene el alquiler del parametro
+			if (alquileres.contains(alquiler)) {
+				
+				//Si existe borramos el alquiler de la lista
+				alquileres.remove(alquiler);
+			}
+			else {
+				throw new OperationNotSupportedException("ERROR: No existe ningún alquiler igual.");
+			}
+		}
+		else {
+			throw new NullPointerException("ERROR: No se puede borrar un alquiler nulo.");
+		}
 		
 	}
 	
 	public Alquiler buscar(Alquiler alquiler) {
-		return null;
+
+		Alquiler alq = null;
+		
+		if (alquiler != null) {
+			
+			//si la lista contiene el alquiler del parametro
+			if (alquileres.contains(alquiler)) {
+				//El alquiler sera el del parametro
+				alq = alquiler;
+			}
+		}
+		else {
+			throw new NullPointerException("ERROR: No se puede buscar un alquiler nulo.");
+		}
+		
+		return alq;
 	}
 	
 }

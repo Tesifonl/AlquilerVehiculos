@@ -4,8 +4,8 @@ import java.util.Objects;
 
 public class Turismo {
 	
-	private static String ER_MARCA="[A-Za-z._]{4}";
-	private static String ER_MATRICULA="([0-9]{4})([A-Z]{3})";
+	private static String[] ER_MARCA= {"Seat", "Land Rover", "KIA", "Rolls-Royce", "SsangYong"};
+	private static String ER_MATRICULA="([0-9]{4})([BCDFGHJKLMNPRSTVWXYZ]{3})";
 	private String marca;
 	private String modelo;
 	private int cilindrada;
@@ -22,11 +22,6 @@ public class Turismo {
 	}
 	
 	public Turismo () {
-		
-		setMarca(marca);
-		setModelo(modelo);
-		setCilindrada(cilindrada);
-		setMatricula(matricula);
 	}
 	
 	
@@ -52,9 +47,19 @@ public class Turismo {
 		
 		if (marca == null) { throw new NullPointerException("ERROR: La marca no puede ser nula.");}
 		if (marca.trim().equals("")) { throw new IllegalArgumentException("ERROR: La marca no tiene un formato válido.");}
-		else if (!marca.trim().matches(ER_MARCA)) { throw new IllegalArgumentException("ERROR: La marca no tiene un formato válido.");}
-		else {this.marca = marca;};
-
+		else {
+			boolean encontrado = false;
+			for (int i = 0; i < ER_MARCA.length && !encontrado; i++) {
+				if (ER_MARCA[i].equals(marca)) {
+					this.marca = marca;
+					encontrado = true;
+				}
+			}
+			
+			if (!encontrado) {
+				throw new IllegalArgumentException("ERROR: La marca no tiene un formato válido.");}
+		
+		}
 	}
 
 
@@ -77,7 +82,7 @@ public class Turismo {
 
 
 	private void setCilindrada(int cilindrada) {
-		if (cilindrada<1 || cilindrada>5000) { throw new NullPointerException("ERROR: La cilindrada no es correcta.");}
+		if (cilindrada<1 || cilindrada>5000) { throw new IllegalArgumentException("ERROR: La cilindrada no es correcta.");}
 		else {this.cilindrada = cilindrada;}
 	}
 
@@ -101,7 +106,15 @@ public class Turismo {
 	
 	public static Turismo getTurismoConMatricula(String matricula) {
 		
-		Turismo turismoConMatricula=new Turismo();
+		Turismo turismoConMatricula = null;
+		
+		if (matricula != null) {
+			turismoConMatricula =new Turismo();
+			turismoConMatricula.setMatricula(matricula);
+		}
+		else {
+			throw new NullPointerException("ERROR: La matrícula no puede ser nula.");
+		}
 		
 		return turismoConMatricula;
 	}
@@ -128,8 +141,7 @@ public class Turismo {
 
 	@Override
 	public String toString() {
-		return "Turismo [marca=" + marca + ", modelo=" + modelo + ", cilindrada=" + cilindrada + ", matricula="
-				+ matricula + "]";
+		return String.format("%s %s (%sCV) - %s", marca, modelo, cilindrada, matricula, "disponible");
 	}
 
 	
