@@ -43,6 +43,7 @@ public class Modelo {
 	public void insertar(Cliente cliente) throws OperationNotSupportedException {
 		
 		if (cliente != null) {
+			//Inserta el cliente en la lista de clientes
 			clientes.insertar(cliente);
 		}
 	}
