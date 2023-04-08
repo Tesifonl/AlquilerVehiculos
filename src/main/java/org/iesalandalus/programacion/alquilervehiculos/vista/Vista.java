@@ -7,7 +7,6 @@ import org.iesalandalus.programacion.alquilervehiculos.controlador.Controlador;
 import org.iesalandalus.programacion.alquilervehiculos.modelo.dominio.Alquiler;
 import org.iesalandalus.programacion.alquilervehiculos.modelo.dominio.Cliente;
 import org.iesalandalus.programacion.alquilervehiculos.modelo.dominio.Turismo;
-import org.iesalandalus.programacion.utilidades.Entrada;
 
 public class Vista {
 
@@ -113,6 +112,12 @@ public class Vista {
 				case LISTAR_ALQUILERES_TURISMO: {
 					listarAlquileresTurismo();
 					break;
+				}
+				case SALIR: {
+					break;
+				}
+				default: {
+					System.out.println("Opción incorrecta");
 				}
 			}
 		}
